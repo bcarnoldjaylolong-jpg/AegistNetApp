@@ -23,21 +23,22 @@ public class RecoverPasswordDialogFragment extends DialogFragment {
 	private Button btnRecoverPassword;
 	private Button btnCancelRecoverPassword;
 	private OnPasswordResetListener onPasswordResetListener;
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_recover_password, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		onPasswordResetListener = (OnPasswordResetListener) getActivity();
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
 		txtRecoveryEmail = view.findViewById(R.id.txtRecoveryEmail);
-		
-		
+
 		btnRecoverPassword = view.findViewById(R.id.btnRecoverPassword);
 		btnRecoverPassword.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -52,7 +53,7 @@ public class RecoverPasswordDialogFragment extends DialogFragment {
 				}
 			}
 		});
-		
+
 		btnCancelRecoverPassword = view.findViewById(R.id.btnCancelRecoverPassword);
 		btnCancelRecoverPassword.setOnClickListener(new View.OnClickListener() {
 			@Override

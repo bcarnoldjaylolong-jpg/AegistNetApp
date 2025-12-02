@@ -23,25 +23,27 @@ public class ConfirmationDialogFragment extends DialogFragment {
 	private Button btnCancelConfirm;
 	private TextView txtConfirmationBody;
 	private OnConfirmationListener onConfirmationListener;
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_confirmation, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
 		onConfirmationListener = (OnConfirmationListener) getActivity();
-		
+
 		Bundle bundle = getArguments();
 		String confirmationMessage = bundle.getString(Constant.CONFIRMATION_MESSAGE);
-		
+
 		txtConfirmationBody = view.findViewById(R.id.txtConfirmationBody);
 		txtConfirmationBody.setText(confirmationMessage);
-		
+
 		btnConfirm = view.findViewById(R.id.btnConfirm);
 		btnConfirm.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -49,9 +51,9 @@ public class ConfirmationDialogFragment extends DialogFragment {
 				onConfirmationListener.onConfirm();
 				dismiss();
 			}
-			
+
 		});
-		
+
 		btnCancelConfirm = view.findViewById(R.id.btnCancelConfirm);
 		btnCancelConfirm.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -60,6 +62,6 @@ public class ConfirmationDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		
+
 	}
 }

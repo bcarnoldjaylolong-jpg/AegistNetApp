@@ -42,18 +42,13 @@ public class SMSPermissionsFragment extends Fragment implements CompoundButton.O
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
-			switch (buttonView.getId()) {
-				case R.id.switchSendSmsPermission:
-					requestSendSmsPermission();
-					break;
-				
-				case R.id.switchReadSmsPermission:
-					requestReadSmsPermission();
-					break;
-				
-				case R.id.switchReceiveSmsPermission:
-					requestReceiveSmsPermission();
-					break;
+			int id = buttonView.getId();
+			if (id == R.id.switchSendSmsPermission) {
+				requestSendSmsPermission();
+			} else if (id == R.id.switchReadSmsPermission) {
+				requestReadSmsPermission();
+			} else if (id == R.id.switchReceiveSmsPermission) {
+				requestReceiveSmsPermission();
 			}
 		}
 	}

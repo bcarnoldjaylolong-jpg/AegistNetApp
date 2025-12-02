@@ -27,21 +27,22 @@ public class PasswordChangingDialogFragment extends DialogFragment {
 	private Button btnChangePassword;
 	private Button btnCancelChangePassword;
 	private OnPasswordChangeListener onPasswordChangeListener;
-	
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_change_password, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
 		onPasswordChangeListener = (OnPasswordChangeListener) getActivity();
-		
+
 		txtOldPassword = view.findViewById(R.id.txtOldPassword);
 		txtNewPassword = view.findViewById(R.id.txtNewPassword);
 		txtNewPasswordConfirmation = view.findViewById(R.id.txtNewPasswordConfirmation);
@@ -53,7 +54,7 @@ public class PasswordChangingDialogFragment extends DialogFragment {
 					onPasswordChangeListener.onPasswordChange(txtNewPassword.getText().toString());
 					dismiss();
 				}
-				
+
 			}
 		});
 		btnCancelChangePassword = view.findViewById(R.id.btnCancelChangePassword);
@@ -63,37 +64,35 @@ public class PasswordChangingDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		
+
 	}
-	
-	
+
 	private boolean isValid() {
 		if (!Validators.isValidPassword(txtOldPassword.getText().toString())) {
 			txtOldPassword.setError(getString(R.string.wrong_password));
 			txtOldPassword.requestFocus();
 			return false;
 		}
-		
-		if (!txtOldPassword.getText().toString().equals(SharedPrefsUtils.getStringPreference(getContext(), Constant.PASSWORD, ""))) {
+
+		if (!txtOldPassword.getText().toString()
+				.equals(SharedPrefsUtils.getStringPreference(getContext(), Constant.PASSWORD, ""))) {
 			txtOldPassword.setError(getString(R.string.wrong_password));
 			txtOldPassword.requestFocus();
 			return false;
 		}
-		
-		
+
 		if (!Validators.isValidPassword(txtNewPassword.getText().toString())) {
 			txtNewPassword.setError(getString(R.string.enter_valid_password));
 			txtNewPassword.requestFocus();
 			return false;
 		}
-		
+
 		if (!txtNewPasswordConfirmation.getText().toString().equals(txtNewPassword.getText().toString())) {
 			txtNewPasswordConfirmation.setError(getString(R.string.new_password_doesnt_match));
 			txtNewPasswordConfirmation.requestFocus();
 			return false;
 		}
-		
+
 		return true;
 	}
 }
-

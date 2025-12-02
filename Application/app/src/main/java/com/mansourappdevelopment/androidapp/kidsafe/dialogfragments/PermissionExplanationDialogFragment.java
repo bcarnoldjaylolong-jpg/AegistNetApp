@@ -18,32 +18,34 @@ import com.mansourappdevelopment.androidapp.kidsafe.R;
 import com.mansourappdevelopment.androidapp.kidsafe.interfaces.OnPermissionExplanationListener;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 
-
 public class PermissionExplanationDialogFragment extends DialogFragment {
 	private TextView txtPermissionBody;
 	private Button btnOkPermission;
 	private Button btnCancelPermission;
 	private OnPermissionExplanationListener onPermissionExplanationListener;
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_permission_explanation, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
 		txtPermissionBody = view.findViewById(R.id.txtPermissionBody);
 		if (getTargetFragment() != null)
 			onPermissionExplanationListener = (OnPermissionExplanationListener) getTargetFragment();
-		else onPermissionExplanationListener = (OnPermissionExplanationListener) getActivity();
-		
+		else
+			onPermissionExplanationListener = (OnPermissionExplanationListener) getActivity();
+
 		Bundle bundle = getArguments();
 		final int requestCode = bundle.getInt(Constant.PERMISSION_REQUEST_CODE);
 		final int switchId = bundle.getInt(Constant.SWITCH_ID);
-		
+
 		switch (requestCode) {
 			case Constant.SEND_SMS_PERMISSION_REQUEST_CODE:
 				txtPermissionBody.setText(getString(R.string.send_sms_explanation));
@@ -87,9 +89,9 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
 			default:
 				txtPermissionBody.setText(getString(R.string.please_allow_the_following_permissions));
 				break;
-			
+
 		}
-		
+
 		btnOkPermission = view.findViewById(R.id.btnOkPermission);
 		btnOkPermission.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -98,7 +100,7 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		
+
 		btnCancelPermission = view.findViewById(R.id.btnCancelPermission);
 		btnCancelPermission.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -107,6 +109,6 @@ public class PermissionExplanationDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		
+
 	}
 }

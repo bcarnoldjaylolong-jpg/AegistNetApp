@@ -31,25 +31,27 @@ public class AppLockDialogFragment extends DialogFragment {
 	private EditText txtLockAppMinutes;
 	private TextView txtLockAppHeader;
 	private OnAppClickListener onAppClickListener;
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_lock_app, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
 		onAppClickListener = (OnAppClickListener) getTargetFragment();
 		Bundle bundle = getArguments();
 		String appName = bundle.getString(Constant.CHILD_APP_NAME_EXTRA);
 		String headerText = "Block " + appName;
-		
+
 		txtLockAppHeader = view.findViewById(R.id.txtLockAppHeader);
 		txtLockAppHeader.setText(headerText);
-		
+
 		btnLockApp = view.findViewById(R.id.btnLockApp);
 		btnCancelLockApp = view.findViewById(R.id.btnCancelLockApp);
 		layoutLockAppTime = view.findViewById(R.id.layoutLockAppTime);
@@ -65,42 +67,42 @@ public class AppLockDialogFragment extends DialogFragment {
 					layoutLockAppTime.setVisibility(View.VISIBLE);
 				}
 			}
-			
+
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 				layoutLockAppTime.setVisibility(View.GONE);
-				
+
 			}
 		});
-		
+
 		btnLockApp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (spinnerLockAppEntries.getSelectedItemPosition() == 0) {
-					//onAppClickListener.onLockAppSet(0, 0);
+					// onAppClickListener.onLockAppSet(0, 0);
 					dismiss();
-					
+
 				} else if (spinnerLockAppEntries.getSelectedItemPosition() == 1) {
 					if (isValid()) {
 						int hours = Integer.parseInt(txtLockAppHours.getText().toString());
 						int minutes = Integer.parseInt(txtLockAppMinutes.getText().toString());
-						//onAppClickListener.onLockAppSet(hours, minutes);
+						// onAppClickListener.onLockAppSet(hours, minutes);
 						dismiss();
 					}
-					
+
 				}
 			}
 		});
-		
+
 		btnCancelLockApp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//onAppClickListener.onLockCanceled();
+				// onAppClickListener.onLockCanceled();
 				dismiss();
 			}
 		});
 	}
-	
+
 	private boolean isValid() {
 		if (txtLockAppHours.getText().toString().equals("")) {
 			txtLockAppHours.setError(getString(R.string.enter_a_valid_number));
@@ -118,7 +120,7 @@ public class AppLockDialogFragment extends DialogFragment {
 			txtLockAppMinutes.setError(getString(R.string.maximum_is_59_minutes));
 			return false;
 		}
-		
+
 		return true;
 	}
 }

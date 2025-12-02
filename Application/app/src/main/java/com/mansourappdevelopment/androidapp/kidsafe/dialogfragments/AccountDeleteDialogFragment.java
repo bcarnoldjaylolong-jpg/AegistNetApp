@@ -25,21 +25,22 @@ public class AccountDeleteDialogFragment extends DialogFragment {
 	private Button btnDeleteAccount;
 	private Button btnCancelDeleteAccount;
 	private OnDeleteAccountListener onDeleteAccountListener;
-	
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_delete_account, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
 		onDeleteAccountListener = (OnDeleteAccountListener) getActivity();
-		
+
 		txtDeleteAccountPassword = view.findViewById(R.id.txtDeleteAccountPassword);
 		btnDeleteAccount = view.findViewById(R.id.btnDeleteAccount);
 		btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +52,7 @@ public class AccountDeleteDialogFragment extends DialogFragment {
 				}
 			}
 		});
-		
-		
+
 		btnCancelDeleteAccount = view.findViewById(R.id.btnCancelDeleteAccount);
 		btnCancelDeleteAccount.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -60,23 +60,23 @@ public class AccountDeleteDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		
-		
+
 	}
-	
+
 	private boolean isValid() {
 		if (!Validators.isValidPassword(txtDeleteAccountPassword.getText().toString())) {
 			txtDeleteAccountPassword.setError(getString(R.string.wrong_password));
 			txtDeleteAccountPassword.requestFocus();
 			return false;
 		}
-		
-		if (!txtDeleteAccountPassword.getText().toString().equals(SharedPrefsUtils.getStringPreference(getContext(), Constant.PASSWORD, ""))) {
+
+		if (!txtDeleteAccountPassword.getText().toString()
+				.equals(SharedPrefsUtils.getStringPreference(getContext(), Constant.PASSWORD, ""))) {
 			txtDeleteAccountPassword.setError(getString(R.string.wrong_password));
 			txtDeleteAccountPassword.requestFocus();
 			return false;
 		}
-		
+
 		return true;
 	}
 }

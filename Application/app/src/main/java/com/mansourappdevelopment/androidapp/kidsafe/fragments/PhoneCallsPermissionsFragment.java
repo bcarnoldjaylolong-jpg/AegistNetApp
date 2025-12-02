@@ -42,18 +42,13 @@ public class PhoneCallsPermissionsFragment extends Fragment implements CompoundB
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
-			switch (buttonView.getId()) {
-				case R.id.switchPhoneStatePermission:
-					requestPhoneStatePermission();
-					break;
-				
-				case R.id.switchReadCallLogPermission:
-					requestReadCallLogPermission();
-					break;
-				
-				case R.id.switchReadContactsPermission:
-					requestReadContactsPermission();
-					break;
+			int id = buttonView.getId();
+			if (id == R.id.switchPhoneStatePermission) {
+				requestPhoneStatePermission();
+			} else if (id == R.id.switchReadCallLogPermission) {
+				requestReadCallLogPermission();
+			} else if (id == R.id.switchReadContactsPermission) {
+				requestReadContactsPermission();
 			}
 		}
 	}

@@ -34,52 +34,55 @@ public class GoogleChildSignUpDialogFragment extends DialogFragment {
 	private DatabaseReference databaseReference;
 	private OnGoogleChildSignUp onGoogleChildSignUp;
 	private boolean validParent = false;
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_google_child_sign_up, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
+
 		firebaseDatabase = FirebaseDatabase.getInstance();
 		databaseReference = firebaseDatabase.getReference("users");
 		onGoogleChildSignUp = (OnGoogleChildSignUp) getActivity();
-		
+
 		txtParentEmail = view.findViewById(R.id.txtParentEmail);
-		txtParentEmail.addTextChangedListener(new TextWatcher() {//TODO:: need a better way
+		txtParentEmail.addTextChangedListener(new TextWatcher() {// TODO:: need a better way
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			
+
 			}
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
-				Query query = databaseReference.child("parents").orderByChild("email").equalTo(txtParentEmail.getText().toString());
+				Query query = databaseReference.child("parents").orderByChild("email")
+						.equalTo(txtParentEmail.getText().toString());
 				query.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 						validParent = dataSnapshot.exists();
 					}
-					
+
 					@Override
 					public void onCancelled(@NonNull DatabaseError databaseError) {
-					
+
 					}
 				});
-				
+
 			}
 		});
-		
+
 		btnChildSignUp = view.findViewById(R.id.btnChildSignUp);
 		btnChildSignUp.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -89,9 +92,9 @@ public class GoogleChildSignUpDialogFragment extends DialogFragment {
 					dismiss();
 				}
 			}
-			
+
 		});
-		
+
 		btnCancelChildSignUp = view.findViewById(R.id.btnCancelChildSignUp);
 		btnCancelChildSignUp.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -100,15 +103,15 @@ public class GoogleChildSignUpDialogFragment extends DialogFragment {
 			}
 		});
 	}
-	
+
 	private boolean isValid() {
 		if (!Validators.isValidEmail(txtParentEmail.getText().toString()) || !validParent) {
 			txtParentEmail.setError(getString(R.string.this_email_isnt_registered_as_parent));
 			txtParentEmail.requestFocus();
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 }

@@ -24,26 +24,29 @@ public class LanguageSelectionDialogFragment extends DialogFragment {
 	private Button btnOkLanguageSelection;
 	private Button btnCancelLanguageSelection;
 	private OnLanguageSelectionListener onLanguageSelectionListener;
-	
+
 	@Nullable
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			@Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_dialog_language_selection, container, false);
 	}
-	
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		// Removed requestWindowFeature and background drawable setup to avoid
+		// AndroidRuntimeException
+		// Dialog styling can be set in onCreateDialog or via setStyle() if needed
 		onLanguageSelectionListener = (OnLanguageSelectionListener) getActivity();
-		
+
 		String appLanguage = SharedPrefsUtils.getStringPreference(getContext(), Constant.APP_LANGUAGE, "en");
 		spinnerLanguageEntries = view.findViewById(R.id.spinnerLanguageEntries);
-		if (appLanguage.equals("en")) spinnerLanguageEntries.setSelection(0);
-		else if (appLanguage.equals("ar")) spinnerLanguageEntries.setSelection(1);
-		
-		
+		if (appLanguage.equals("en"))
+			spinnerLanguageEntries.setSelection(0);
+		else if (appLanguage.equals("ar"))
+			spinnerLanguageEntries.setSelection(1);
+
 		btnOkLanguageSelection = view.findViewById(R.id.btnOkLanguageSelection);
 		btnOkLanguageSelection.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -52,7 +55,7 @@ public class LanguageSelectionDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		
+
 		btnCancelLanguageSelection = view.findViewById(R.id.btnCancelLanguageSelection);
 		btnCancelLanguageSelection.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -60,7 +63,6 @@ public class LanguageSelectionDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
-		
-		
+
 	}
 }
