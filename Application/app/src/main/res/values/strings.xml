@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">KidSafe</string>
+    <string name="app_name" translatable="false">AegistNet</string>
     <string name="id" translatable="false">487946012349-brimdf043dkkn6de7uspdv91mo7rc9s0.apps.googleusercontent.com</string>
     <string name="parent_name">Parent Name</string>
     <string name="login_button">Login</string>
@@ -22,9 +22,9 @@
     <string name="web_filter" translatable="false">Web Filter</string>
     <string name="select_geofence_s_center">Center</string>
     <string name="diameter_in_meters">Diameter in meters</string>
-    <string name="device_admin_description">Allow KidSafe to lock the device</string>
-    <string name="device_admin" translatable="false">KidSafe</string>
-    <string name="device_admin_explanation">KidSafe need to be device admin to be able to lock the phone</string>
+    <string name="device_admin_description">Allow AegistNet to lock the device</string>
+    <string name="device_admin" translatable="false">AegistNet</string>
+    <string name="device_admin_explanation">AegistNet need to be device admin to be able to lock the phone</string>
     <string name="device_admin_enabled">Device Admin Enabled</string>
     <string name="device_admin_disabled">Device Admin Disabled</string>
     <string name="ok">OK</string>
@@ -59,8 +59,8 @@
     <string name="weak_password">Weak password</string>
     <string name="sign_up_falied">Signup Failed</string>
     <string name="enter_valid_password">Enter a valid password</string>
-    <string name="kid" translatable="false">Kid</string>
-    <string name="safe" translatable="false">Safe</string>
+    <string name="kid" translatable="false">Aegist</string>
+    <string name="safe" translatable="false">Net</string>
     <string name="image_uploaded_successfully">Image uploaded successfully</string>
     <string name="image_upload_error">Image upload error</string>
 
@@ -91,7 +91,7 @@
     <string name="back">Back</string>
     <string name="next">Next</string>
     <string name="permission_explanation">Permission Explanation</string>
-    <string name="permission_explanation_main">To allow KidSafe to function properly, please accept the following permissions.</string>
+    <string name="permission_explanation_main">To allow AegistNet to function properly, please accept the following permissions.</string>
     <string name="permission_explanation_sms">We need to be able to read the messages in order to show them to the parent.</string>
     <string name="permission_explanation_phone_calls">We need to be able to get the phone calls information in order to show them to the parent.</string>
     <string name="permission_explanation_settings">In order to lock the child\'s phone, lock and unlock the apps, we need the following permissions.</string>
@@ -114,12 +114,12 @@
     <string name="overlay_permission">Overlay permission</string>
     <string name="package_usage_permission">Package usage permission</string>
     <string name="location_permission_explanation">This permission is needed to allow you to get your child\'s location</string>
-    <string name="write_settings_permission_explanation">This permission is needed to allow the KidSafe to block other apps</string>
+    <string name="write_settings_permission_explanation">This permission is needed to allow the AegistNet to block other apps</string>
     <string name="overlay_permission_explanation">This permission is needed to monitor other apps</string>
-    <string name="package_usage_permission_explanation">This permission is needed to allow KidSafe to get and upload your child\'s apps info</string>
+    <string name="package_usage_permission_explanation">This permission is needed to allow AegistNet to get and upload your child\'s apps info</string>
     <string name="finish">Finish</string>
     <string name="device_admin_permission">Device admin permission</string>
-    <string name="please_allow_permissions">Please allow all the permissions to enable KidSafe to work properly</string>
+    <string name="please_allow_permissions">Please allow all the permissions to enable AegistNet to work properly</string>
     <string name="please_allow_location_permission">Please allow access to the location</string>
     <string name="password_reset_email_sent">Password reset email sent, it may be within your drafts</string>
     <string name="name_validation">Enter a name less than 15 characters</string>
@@ -163,8 +163,8 @@
     <string name="you_re_offline_ncheck_your_connection_and_try_again">You\'re offline \nCheck your connection and try again</string>
     <string name="connected">Connected</string>
     <string name="please_enable_your_gps">Please enable your GPS</string>
-    <string name="please_allow_the_following_permissions">Please accept the following permission to allow kidsafe to function properly</string>
-    <string name="about_message">KidSafe is a free and open source android parental control app which allows parents to keep their children\'s activity under control. KidSafe was developed as a graduation project by the members specified below</string>
+    <string name="please_allow_the_following_permissions">Please accept the following permission to allow aegistnet to function properly</string>
+    <string name="about_message">AegistNet is a free and open source android parental control app which allows parents to keep their children\'s activity under control. AegistNet was developed as a graduation project by the members specified below</string>
     <string name="many_thanks_goes_to_freepik_and_smashiocns_for_the_graphics">Many thanks goes to freepik.com and smashiocns.com for the graphics</string>
     <string name="developers">Developers</string>
     <string name="mahmoud_mansour">Mahmoud Mansour</string>
@@ -172,7 +172,7 @@
     <string name="supervisor">Supervisor</string>
     <string name="d_marwa_abbas">D. Marwa Abbas</string>
     <string name="_1_0">1.0</string>
-    <string name="select_app_language">Select kidsafe\'s language</string>
+    <string name="select_app_language">Select aegistnet\'s language</string>
     <string name="enter_your_old_and_new_passowrd">Enter your old and new password</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>

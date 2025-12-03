@@ -1,6 +1,7 @@
 package com.mansourappdevelopment.androidapp.kidsafe.services;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -102,11 +103,32 @@ public class MainForegroundService extends Service {
 
 		FirebaseAuth auth = FirebaseAuth.getInstance();
 		FirebaseUser user = auth.getCurrentUser();
-		childEmail = user.getEmail();
-		uid = user.getUid();
+		if (user != null) {
+			childEmail = user.getEmail();
+			uid = user.getUid();
+		} else {
+			if (intent != null) {
+				childEmail = intent.getStringExtra("CHILD_EMAIL");
+				uid = intent.getStringExtra("CHILD_UID");
+			}
+			if (childEmail == null || uid == null) {
+				Log.e(TAG, "User not authenticated and no intent extras provided. Stopping service.");
+				// Must call startForeground before stopping to avoid ForegroundServiceDidNotStartInTimeException
+				Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+						.setSmallIcon(R.drawable.ic_kidsafe)
+						.setContentTitle("AegistNet Service Stopping")
+						.setContentText("User not authenticated")
+						.setPriority(NotificationCompat.PRIORITY_LOW)
+						.build();
+				startForeground(NOTIFICATION_ID, notification);
+				stopSelf();
+				return START_NOT_STICKY;
+			}
+		}
 
 		Intent notificationIntent = new Intent(this, ChildSignedInActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+				PendingIntent.FLAG_IMMUTABLE);
 
 		Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
 				// .setContentTitle(notificationContent)
@@ -468,6 +490,7 @@ public class MainForegroundService extends Service {
 	 * }
 	 */
 
+	@SuppressLint("Range")
 	public ArrayList<Contact> getContacts() {
 		ArrayList<Contact> contacts = new ArrayList<>();
 		ContentResolver contentResolver = getApplicationContext().getContentResolver();
@@ -554,6 +577,10 @@ public class MainForegroundService extends Service {
 	}
 
 	private void uploadApps(ArrayList<App> appsList) {
+		if (uid == null) {
+			Log.e(TAG, "uploadApps: uid is null, cannot upload apps");
+			return;
+		}
 		databaseReference.child("childs").child(uid).child("apps").setValue(appsList);
 		Log.i(TAG, "uploadApps: done");
 	}

@@ -5,8 +5,8 @@ buildscript {
     }
     dependencies {
         // It's recommended to update to a more recent version
-        classpath 'com.android.tools.build:gradle:8.2.0' // Or a newer stable version
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22" // Update Kotlin plugin as well
+        classpath 'com.android.tools.build:gradle:8.13.1' // Or a newer stable version
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.0' // Update Kotlin plugin as well
         classpath 'com.google.gms:google-services:4.3.15'
     }
 }

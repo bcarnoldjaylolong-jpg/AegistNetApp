@@ -63,35 +63,32 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 	private String emailPrefs;
 	private String passwordPrefs;
 	private boolean autoLoginPrefs;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
+
 		fragmentManager = getSupportFragmentManager();
 		LocaleUtils.setAppLanguage(this);
-		
-		
-		//FirebaseApp.initializeApp(this);
+
+		// FirebaseApp.initializeApp(this);
 		auth = FirebaseAuth.getInstance();
 		firebaseDatabase = FirebaseDatabase.getInstance();
 		databaseReference = firebaseDatabase.getReference("users");
-		
-		
+
 		txtLogInEmail = findViewById(R.id.txtLogInEmail);
 		txtLogInPassword = findViewById(R.id.txtLogInPassword);
 		txtForgotPassword = findViewById(R.id.txtForgotPassword);
 		progressBar = findViewById(R.id.progressBar);
-		
+
 		checkBoxRememberMe = findViewById(R.id.checkBoxRememberMe);
-		//progressBar.setVisibility(View.GONE);
-		
+		// progressBar.setVisibility(View.GONE);
+
 		btnLogin = findViewById(R.id.btnLogin);
 		txtSignUp = findViewById(R.id.txtSignUp);
 		btnGoogleSignUp = findViewById(R.id.btnSignUpGoogle);
-		
+
 		btnLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -101,41 +98,43 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 				login(email, password);
 			}
 		});
-		
+
 		txtSignUp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startModeSelectionActivity();
 			}
 		});
-		
+
 		txtForgotPassword.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				sendPasswordRecoveryEmail();
 			}
 		});
-		
+
 		btnGoogleSignUp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				signInWithGoogle();
 			}
 		});
-		
+
 		autoLoginPrefs = SharedPrefsUtils.getBooleanPreference(this, Constant.AUTO_LOGIN, false);
 		checkBoxRememberMe.setChecked(autoLoginPrefs);
-		
+
 		emailPrefs = SharedPrefsUtils.getStringPreference(this, Constant.EMAIL, "");
 		passwordPrefs = SharedPrefsUtils.getStringPreference(this, Constant.PASSWORD, "");
 		if (autoLoginPrefs) {
 			txtLogInEmail.setText(emailPrefs);
 			txtLogInPassword.setText(passwordPrefs);
 		}
-		
+
 		if (!Validators.isGooglePlayServicesAvailable(this)) {
 			startInformationDialogFragment(getString(R.string.please_download_google_play_services));
-			//Toast.makeText(this, getString(R.string.please_download_google_play_services), Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this,
+			// getString(R.string.please_download_google_play_services),
+			// Toast.LENGTH_SHORT).show();
 			btnLogin.setEnabled(false);
 			btnLogin.setClickable(false);
 			btnGoogleSignUp.setClickable(false);
@@ -148,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			checkBoxRememberMe.setClickable(false);
 		}
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -160,83 +159,88 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 					checkMode(email);
 				}
 			} else
-				startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+				startInformationDialogFragment(
+						getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
 		}
 	}
-	
-	
+
 	private void autoLogin() {
 		SharedPrefsUtils.setBooleanPreference(this, Constant.AUTO_LOGIN, checkBoxRememberMe.isChecked());
 		SharedPrefsUtils.setStringPreference(this, Constant.EMAIL, txtLogInEmail.getText().toString().toLowerCase());
 		SharedPrefsUtils.setStringPreference(this, Constant.PASSWORD, txtLogInPassword.getText().toString());
-		
+
 	}
-	
+
 	private void login(String email, String password) {
 		if (isValid()) {
 			final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
 			startLoadingFragment(loadingDialogFragment);
-			auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-				@Override
-				public void onComplete(@NonNull Task<AuthResult> task) {
-					stopLoadingFragment(loadingDialogFragment);
-					if (task.isSuccessful()) {
-						FirebaseUser user = auth.getCurrentUser();
-						String email = user.getEmail();
-						uid = user.getUid();
-						Log.i(TAG, "onComplete: user: " + user.toString());
-						Log.i(TAG, "onComplete: email: " + email);
-						Log.i(TAG, "onComplete: uid: " + uid);
-						//String email = txtLogInEmail.getText().toString();
-						if (Validators.isVerified(user)) checkMode(email);
-						else startAccountVerificationActivity();
-					} else {
-						String errorCode = null;
-						try {
-							errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-						} catch (ClassCastException e) {
-							e.printStackTrace();
+			auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this,
+					new OnCompleteListener<AuthResult>() {
+						@Override
+						public void onComplete(@NonNull Task<AuthResult> task) {
+							stopLoadingFragment(loadingDialogFragment);
+							if (task.isSuccessful()) {
+								FirebaseUser user = auth.getCurrentUser();
+								String email = user.getEmail();
+								uid = user.getUid();
+								Log.i(TAG, "onComplete: user: " + user.toString());
+								Log.i(TAG, "onComplete: email: " + email);
+								Log.i(TAG, "onComplete: uid: " + uid);
+								// String email = txtLogInEmail.getText().toString();
+								if (Validators.isVerified(user))
+									checkMode(email);
+								else
+									startAccountVerificationActivity();
+							} else {
+								String errorCode = null;
+								try {
+									errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+								} catch (ClassCastException e) {
+									e.printStackTrace();
+								}
+								switch (errorCode) {
+									case "ERROR_INVALID_EMAIL":
+										txtLogInEmail.setError(getString(R.string.enter_valid_email));
+										break;
+									case "ERROR_USER_NOT_FOUND":
+										txtLogInEmail.setError(getString(R.string.email_isnt_registered));
+										break;
+									case "ERROR_WRONG_PASSWORD":
+										txtLogInPassword.setError(getString(R.string.wrong_password));
+										break;
+									default:
+										Toast.makeText(LoginActivity.this, getString(R.string.authentication_failed),
+												Toast.LENGTH_SHORT).show();
+								}
+							}
 						}
-						switch (errorCode) {
-							case "ERROR_INVALID_EMAIL":
-								txtLogInEmail.setError(getString(R.string.enter_valid_email));
-								break;
-							case "ERROR_USER_NOT_FOUND":
-								txtLogInEmail.setError(getString(R.string.email_isnt_registered));
-								break;
-							case "ERROR_WRONG_PASSWORD":
-								txtLogInPassword.setError(getString(R.string.wrong_password));
-								break;
-							default:
-								Toast.makeText(LoginActivity.this, getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
-						}
-					}
-				}
-			});
+					});
 		}
 	}
-	
+
 	private boolean isValid() {
 		if (!Validators.isValidEmail(txtLogInEmail.getText().toString())) {
 			txtLogInEmail.setError(getString(R.string.enter_valid_email));
 			txtLogInEmail.requestFocus();
 			return false;
 		}
-		
+
 		if (!Validators.isValidPassword(txtLogInPassword.getText().toString())) {
 			txtLogInPassword.setError(getString(R.string.enter_valid_email));
 			txtLogInPassword.requestFocus();
 			return false;
 		}
-		
+
 		if (!Validators.isInternetAvailable(this)) {
-			startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+			startInformationDialogFragment(
+					getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	private void startInformationDialogFragment(String message) {
 		InformationDialogFragment informationDialogFragment = new InformationDialogFragment();
 		Bundle bundle = new Bundle();
@@ -245,16 +249,16 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		informationDialogFragment.setCancelable(false);
 		informationDialogFragment.show(getSupportFragmentManager(), Constant.INFORMATION_DIALOG_FRAGMENT_TAG);
 	}
-	
+
 	private void startLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
 		loadingDialogFragment.setCancelable(false);
 		loadingDialogFragment.show(fragmentManager, Constant.LOADING_FRAGMENT);
 	}
-	
+
 	private void stopLoadingFragment(LoadingDialogFragment loadingDialogFragment) {
 		loadingDialogFragment.dismiss();
 	}
-	
+
 	private void checkMode(String email) {
 		final LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
 		startLoadingFragment(loadingDialogFragment);
@@ -268,59 +272,63 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 				} else {
 					startChildSignedInActivity();
 				}
-				
+
 			}
-			
+
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
 				Log.i(TAG, "onCancelled: canceled");
 			}
 		});
 	}
-	
+
 	private void startParentSignedInActivity() {
 		Intent intent = new Intent(this, ParentSignedInActivity.class);
 		startActivity(intent);
 	}
-	
+
 	private void startChildSignedInActivity() {
 		Intent intent = new Intent(this, ChildSignedInActivity.class);
 		startActivity(intent);
 	}
-	
+
 	private void startAccountVerificationActivity() {
 		Intent intent = new Intent(this, AccountVerificationActivity.class);
 		startActivity(intent);
 	}
-	
+
 	private void startModeSelectionActivity() {
 		Intent intent = new Intent(this, ModeSelectionActivity.class);
 		startActivity(intent);
-        /*Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);*/
+		/*
+		 * Intent intent = new Intent(this, SignUpActivity.class);
+		 * startActivity(intent);
+		 */
 	}
-	
+
 	private void sendPasswordRecoveryEmail() {
 		RecoverPasswordDialogFragment recoverPasswordDialogFragment = new RecoverPasswordDialogFragment();
 		recoverPasswordDialogFragment.setCancelable(false);
 		recoverPasswordDialogFragment.show(fragmentManager, Constant.RECOVER_PASSWORD_FRAGMENT);
 	}
-	
+
 	private void signInWithGoogle() {
 		if (Validators.isInternetAvailable(this)) {
-			GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
+			GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(
+					GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
 			GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 			Intent signInIntent = googleSignInClient.getSignInIntent();
 			startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
 		} else
-			startInformationDialogFragment(getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
-		
+			startInformationDialogFragment(
+					getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
+
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		if (requestCode == Constant.RC_SIGN_IN) {
 			Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 			try {
@@ -334,7 +342,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			}
 		}
 	}
-	
+
 	private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
 		Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 		AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
@@ -343,34 +351,37 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if (task.isSuccessful()) {
 					Log.i(TAG, "onComplete: Authentication Succeeded");
-					Toast.makeText(LoginActivity.this, getString(R.string.authentication_succeeded), Toast.LENGTH_SHORT).show();
+					Toast.makeText(LoginActivity.this, getString(R.string.authentication_succeeded), Toast.LENGTH_SHORT)
+							.show();
 					FirebaseUser user = auth.getCurrentUser();
 					checkMode(user.getEmail());
-					
+
 				}
 			}
 		});
 	}
-	
+
 	@Override
 	public void onOkClicked(String email) {
 		sendPasswordRecoveryEmail(email);
 	}
-	
+
 	@Override
 	public void onCancelClicked() {
-		//Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, getString(R.string.canceled),
+		// Toast.LENGTH_SHORT).show();
 	}
-	
+
 	private void sendPasswordRecoveryEmail(String email) {
 		auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
 			@Override
 			public void onComplete(@NonNull Task<Void> task) {
 				if (task.isSuccessful()) {
-					Toast.makeText(LoginActivity.this, getString(R.string.password_reset_email_sent), Toast.LENGTH_SHORT).show();
+					Toast.makeText(LoginActivity.this, getString(R.string.password_reset_email_sent),
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-		
+
 	}
 }

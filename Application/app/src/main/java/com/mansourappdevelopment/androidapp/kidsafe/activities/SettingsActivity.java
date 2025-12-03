@@ -153,13 +153,13 @@ public class SettingsActivity extends AppCompatActivity implements OnLanguageSel
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("message/rfc822");
 		intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"MansourAppDevelopment@gmail.com"});
-		intent.putExtra(Intent.EXTRA_SUBJECT, "KidSafe Feedback");
+		intent.putExtra(Intent.EXTRA_SUBJECT, "AegistNet Feedback");
 		intent.putExtra(Intent.EXTRA_TEXT, body);
 		startActivity(Intent.createChooser(intent, getString(R.string.choose_email_client)));
 	}
 	
 	private void visitWebsite() {
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://xmansour.github.io/KidSafe"));
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://xmansour.github.io/AegistNet"));
 		startActivity(intent);
 	}
 	

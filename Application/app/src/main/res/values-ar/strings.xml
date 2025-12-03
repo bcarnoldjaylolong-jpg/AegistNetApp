@@ -110,12 +110,12 @@
     <string name="overlay_permission_explanation">هذا الإذن مطلوب لمراقبة التطبيقات الأخرى</string>
     <string name="overlay_permission">إذن غلق التطبيقات الاخرى</string>
     <string name="package_usage_permission">إذن الحصول على التطبيقات الاخرى</string>
-    <string name="package_usage_permission_explanation">هذا الإذن ضروري للسماح لـ KidSafe بالحصول على معلومات تطبيقات طفلك وتحميلها</string>
+    <string name="package_usage_permission_explanation">هذا الإذن ضروري للسماح لـ AegistNet بالحصول على معلومات تطبيقات طفلك وتحميلها</string>
     <string name="password_reset_email_sent">تم إرسال البريد الإلكتروني لإعادة تعيين كلمة المرور ، وقد يكون ذلك ضمن مسوداتك</string>
     <string name="password_updated">تم تحديث كلمة السر</string>
     <string name="permission_denied">تم رفض الإذن</string>
     <string name="permission_explanation">شرح إذن</string>
-    <string name="permission_explanation_main">للسماح لـ KidSafe بالعمل بشكل صحيح ، يرجى قبول الأذونات التالية.</string>
+    <string name="permission_explanation_main">للسماح لـ AegistNet بالعمل بشكل صحيح ، يرجى قبول الأذونات التالية.</string>
     <string name="permission_explanation_phone_calls">يجب أن نكون قادرين على الحصول على معلومات المكالمات الهاتفية من أجل إظهارها على الوالد.</string>
     <string name="permission_explanation_settings">من أجل قفل هاتف الطفل وقفل التطبيقات وإلغاء قفلها ، نحتاج إلى الأذونات التالية.</string>
     <string name="permission_explanation_sms">نحتاج إلى أن نكون قادرين على قراءة الرسائل من أجل إظهارها على الوالد.</string>
@@ -125,8 +125,8 @@
     <string name="phone_state_permission">إذن الحصول على المكالمات</string>
     <string name="please_add_a_profile_image">يرجى إضافة صورة الملف الشخصي</string>
     <string name="please_allow_location_permission">يرجى السماح بالوصول إلى الموقع</string>
-    <string name="please_allow_permissions">يرجى السماح لجميع الأذونات لتمكين KidSafe من العمل بشكل صحيح</string>
-    <string name="please_allow_the_following_permissions">يرجى قبول الإذن التالي للسماح لـ kidsafe بالعمل بشكل صحيح</string>
+    <string name="please_allow_permissions">يرجى السماح لجميع الأذونات لتمكين AegistNet من العمل بشكل صحيح</string>
+    <string name="please_allow_the_following_permissions">يرجى قبول الإذن التالي للسماح لـ aegistnet بالعمل بشكل صحيح</string>
     <string name="please_download_google_play_services">يرجى تحميل خدمات جوجل بلاي</string>
     <string name="please_enable_your_gps">يرجى تمكين GPS الخاص بك</string>
     <string name="please_enter_a_valid_diameter">يرجى إدخال قطر صالح</string>
@@ -162,12 +162,12 @@
     <string name="who_will_be_using_this_device">من سيستخدم هذا الجهاز؟</string>
     <string name="would_you_love_to_add_a_profile_image">هل ترغب في إضافة صورة للملف الشخصي؟</string>
     <string name="write_settings_permission">إذن تعديل الأعدادات</string>
-    <string name="write_settings_permission_explanation">هذا الإذن ضروري للسماح لـ KidSafe بحظر التطبيقات الأخرى</string>
+    <string name="write_settings_permission_explanation">هذا الإذن ضروري للسماح لـ AegistNet بحظر التطبيقات الأخرى</string>
     <string name="wrong_password">كلمة مرور خاطئة</string>
     <string name="yesterday">بالأمس</string>
     <string name="you_re_offline_ncheck_your_connection_and_try_again">أنت غير متصل بالانترنت</string>
     <string name="your_email">بريدك الالكتروني</string>
-    <string name="about_message">KidSafe هو تطبيق الرقابة الأبوية على نظام Android المجاني والمفتوح المصدر والذي يسمح للآباء بإبقاء نشاط أطفالهم تحت السيطرة. تم تطوير KidSafe كمشروع تخرج من قبل الأعضاء المحددين أدناه</string>
+    <string name="about_message">AegistNet هو تطبيق الرقابة الأبوية على نظام Android المجاني والمفتوح المصدر والذي يسمح للآباء بإبقاء نشاط أطفالهم تحت السيطرة. تم تطوير AegistNet كمشروع تخرج من قبل الأعضاء المحددين أدناه</string>
     <string name="please_turn_on_the_gps">قم بتفعيل ال GPS عند</string>
     <string name="select_app_language">أختر لغة التطبيق</string>
 </resources>

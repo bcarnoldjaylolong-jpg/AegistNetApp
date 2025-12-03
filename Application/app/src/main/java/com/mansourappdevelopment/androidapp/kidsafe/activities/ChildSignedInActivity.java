@@ -26,6 +26,7 @@ import com.mansourappdevelopment.androidapp.kidsafe.services.MainForegroundServi
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Constant;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.SharedPrefsUtils;
 import com.mansourappdevelopment.androidapp.kidsafe.utils.Validators;
+import com.kidsafe.secure.nsfw.NsfwProtectionHelper;
 
 public class ChildSignedInActivity extends AppCompatActivity implements OnPermissionExplanationListener, OnPasswordValidationListener {
 	public static final int JOB_ID = 38;
@@ -69,6 +70,13 @@ public class ChildSignedInActivity extends AppCompatActivity implements OnPermis
 			
 			//schedualJob(bundle);
 			startMainForegroundService(email);
+
+			// Start NSFW protection flow
+			if (NsfwProtectionHelper.INSTANCE.hasRequiredPermissions(this)) {
+				NsfwProtectionHelper.INSTANCE.requestMediaProjection(this);
+			} else {
+				NsfwProtectionHelper.INSTANCE.requestOverlayPermission(this);
+			}
 			
 			if (!Validators.isLocationOn(this)) startPermissionExplanationDialogFragment();
 			
@@ -115,6 +123,18 @@ public class ChildSignedInActivity extends AppCompatActivity implements OnPermis
 		if (requestCode == Constant.DEVICE_ADMIN_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				Log.i(TAG, "onActivityResult: DONE");
+			}
+		} else if (requestCode == NsfwProtectionHelper.OVERLAY_PERMISSION_REQUEST_CODE) {
+			if (NsfwProtectionHelper.INSTANCE.hasRequiredPermissions(this)) {
+				NsfwProtectionHelper.INSTANCE.requestMediaProjection(this);
+			} else {
+				Toast.makeText(this, "Overlay permission required for NSFW protection", Toast.LENGTH_LONG).show();
+			}
+		} else if (requestCode == NsfwProtectionHelper.MEDIA_PROJECTION_REQUEST_CODE) {
+			if (resultCode == RESULT_OK && data != null) {
+				NsfwProtectionHelper.INSTANCE.startScreenFilterService(this, resultCode, data, 0.6f);
+			} else {
+				Toast.makeText(this, "Screen recording permission required for NSFW protection", Toast.LENGTH_LONG).show();
 			}
 		}
 	}

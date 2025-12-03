@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -24,6 +25,9 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    
+    <!-- NSFW Detection Permissions -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 
     <application
         android:name=".NotificationChannelCreator"
@@ -60,6 +64,13 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.MainForegroundService" />
         <service android:name=".services.GeoFencingForegroundService" />
+        
+        <!-- NSFW Detection Service -->
+        <service 
+            android:name="com.kidsafe.secure.services.ScreenFilterService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
 
         <receiver android:name=".broadcasts.BootCompleteReceiver" android:exported="true">
             <intent-filter>
