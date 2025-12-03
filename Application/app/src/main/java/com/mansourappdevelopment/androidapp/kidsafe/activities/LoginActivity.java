@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 
 		btnLogin = findViewById(R.id.btnLogin);
 		txtSignUp = findViewById(R.id.txtSignUp);
-		btnGoogleSignUp = findViewById(R.id.btnSignUpGoogle);
+		// btnGoogleSignUp = findViewById(R.id.btnSignUpGoogle); // Removed Google Sign-in
 
 		btnLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -113,12 +113,17 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			}
 		});
 
+
+		/*
+		// Removed Google Sign-in
 		btnGoogleSignUp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				signInWithGoogle();
 			}
 		});
+		*/
+
 
 		autoLoginPrefs = SharedPrefsUtils.getBooleanPreference(this, Constant.AUTO_LOGIN, false);
 		checkBoxRememberMe.setChecked(autoLoginPrefs);
@@ -137,8 +142,8 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			// Toast.LENGTH_SHORT).show();
 			btnLogin.setEnabled(false);
 			btnLogin.setClickable(false);
-			btnGoogleSignUp.setClickable(false);
-			btnGoogleSignUp.setClickable(false);
+			// btnGoogleSignUp.setClickable(false); // Removed
+			// btnGoogleSignUp.setClickable(false); // Removed
 			txtSignUp.setEnabled(false);
 			txtSignUp.setClickable(false);
 			txtForgotPassword.setEnabled(false);
@@ -312,6 +317,9 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 		recoverPasswordDialogFragment.show(fragmentManager, Constant.RECOVER_PASSWORD_FRAGMENT);
 	}
 
+
+	/*
+	// Removed Google Sign-in
 	private void signInWithGoogle() {
 		if (Validators.isInternetAvailable(this)) {
 			GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(
@@ -324,7 +332,12 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 					getResources().getString(R.string.you_re_offline_ncheck_your_connection_and_try_again));
 
 	}
+	*/
 
+
+
+	/*
+	// Removed Google Sign-in
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -360,6 +373,8 @@ public class LoginActivity extends AppCompatActivity implements OnPasswordResetL
 			}
 		});
 	}
+	*/
+
 
 	@Override
 	public void onOkClicked(String email) {

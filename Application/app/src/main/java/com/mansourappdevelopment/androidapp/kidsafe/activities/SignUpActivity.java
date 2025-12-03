@@ -145,6 +145,9 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 			}
 		});
 		
+		
+		/*
+		// Removed Google Sign-up
 		btnSignUpWithGoogle = findViewById(R.id.btnSignUpWithGoogle);
 		btnSignUpWithGoogle.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -152,6 +155,8 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 				signInWithGoogle();
 			}
 		});
+		*/
+
 		
 	}
 	
@@ -329,6 +334,9 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 		startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST);
 	}
 	
+
+	/*
+	// Removed Google Sign-up
 	private void signInWithGoogle() {
 		if (Validators.isInternetAvailable(this)) {
 			GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.id)).requestEmail().build();
@@ -338,6 +346,8 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 		} else startInformationDialogFragment();
 		
 	}
+	*/
+
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -348,6 +358,9 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 			imgProfile.setImageURI(imageUri);
 		}
 		
+		
+		/*
+		// Removed Google Sign-up
 		if (requestCode == Constant.RC_SIGN_IN) {
 			Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 			try {
@@ -360,8 +373,13 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 				Log.i(TAG, "Google sign in failed", e);
 			}
 		}
+		*/
+
 	}
 	
+
+	/*
+	// Removed Google Sign-up
 	private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
 		Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 		AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
@@ -386,6 +404,8 @@ public class SignUpActivity extends AppCompatActivity implements OnConfirmationL
 		googleChildSignUpDialogFragment.setCancelable(false);
 		googleChildSignUpDialogFragment.show(fragmentManager, Constant.GOOGLE_CHILD_SIGN_UP);
 	}
+	*/
+
 	
 	@Override
 	public void onConfirm() {

@@ -22,7 +22,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <de.hdodenhol.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="@dimen/circular_image_width_large"
                 android:layout_height="@dimen/circular_image_height_large"
@@ -89,47 +89,7 @@
                 android:layout_marginBottom="20dp"
                 android:visibility="gone" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_32dp"
-                android:layout_marginEnd="@dimen/margin_32dp"
-                android:gravity="center"
-                android:orientation="horizontal">
 
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/flatui_asbestos" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_8dp"
-                    android:text="@string/or"
-                    android:textColor="@color/flatui_asbestos" />
-
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_8dp"
-                    android:background="@color/flatui_asbestos" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnSignUpWithGoogle"
-                style="@style/OkButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_32dp"
-                android:layout_marginTop="@dimen/margin_8dp"
-                android:layout_marginEnd="@dimen/margin_32dp"
-                android:layout_marginBottom="@dimen/margin_8dp"
-                android:text="@string/sign_up_with_google" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
