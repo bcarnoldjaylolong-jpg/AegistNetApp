@@ -13,11 +13,15 @@ class BlurOverlayView(context: Context) : View(context) {
 
     companion object {
         private const val TAG = "BlurOverlayView"
-        private const val BLUR_RADIUS = 22f
-        private const val BLUR_SAMPLE_FACTOR = 0.35f
+        private const val BLUR_RADIUS = 25f
+        // Very low sample factor for intense Gaussian blur
+        private const val BLUR_SAMPLE_FACTOR = 0.1f
     }
 
-    private val blurPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    // Enable anti-aliasing for smooth Gaussian blur effect
+    private val blurPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        isFilterBitmap = true
+    }
 
     // Opaque solid fill paint
     private val boundsPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -54,8 +58,8 @@ class BlurOverlayView(context: Context) : View(context) {
     private var imageWidth = 0
     private var imageHeight = 0
 
-    // Solid fill mode by default
-    private var showBoundingBoxes = true
+    // Blur mode by default (changed from red overlay)
+    private var showBoundingBoxes = false
 
     data class BlurredRegion(
         val bitmap: Bitmap,
@@ -153,7 +157,7 @@ class BlurOverlayView(context: Context) : View(context) {
 
                     val smallWidth = (regionBitmap.width * BLUR_SAMPLE_FACTOR).toInt().coerceAtLeast(1)
                     val smallHeight = (regionBitmap.height * BLUR_SAMPLE_FACTOR).toInt().coerceAtLeast(1)
-                    val small = Bitmap.createScaledBitmap(regionBitmap, smallWidth, smallHeight, false)
+                    val small = Bitmap.createScaledBitmap(regionBitmap, smallWidth, smallHeight, true)
 
                     val blurred = blurBitmap(small)
 
